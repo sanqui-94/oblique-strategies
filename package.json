@@ -4,13 +4,17 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
+    "dev": "node server",
+    "build": "npm run build:client && npm run build:server",
+    "build:client": "vite build --ssrManifest --outDir dist/client",
+    "build:server": "vite build --ssr src/entry-server.jsx --outDir dist/server",
+    "preview": "cross-env NODE_ENV=production node server",
     "lint": "eslint .",
-    "preview": "vite preview",
     "format": "prettier --write ."
   },
   "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.6.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
