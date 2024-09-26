@@ -4,6 +4,8 @@ import { grey } from "@mui/material/colors";
 import { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid2";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import StarIcon from "@mui/icons-material/Star";
+import StarBorderIcon from '@mui/icons-material/StarBorder';
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 
 type strategy = {
@@ -19,8 +21,8 @@ type data = {
 
 export default function Display() {
   const [data, setData] = useState<null | data>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [loadingE, setLoadingE] = useState<boolean>(true);
+  const [mongoError, setMongoError] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -32,9 +34,9 @@ export default function Display() {
         const result = await res.json();
         setData(result);
       } catch (err: any) {
-        setError(err.message);
+        setMongoError(err.message);
       } finally {
-        setLoading(false);
+        setLoadingE(false);
       }
     };
 
@@ -53,12 +55,12 @@ export default function Display() {
       const result = await res.json();
 
       if (res.ok) {
-        console.log('Update success:', result);
+        console.log("Update success:", result);
       } else {
-        console.error('Error updating:', result.error);
+        console.error("Error updating:", result.error);
       }
     } catch (error) {
-      console.error('Error during update:', error);
+      console.error("Error during update:", error);
     }
 
     // get a new dilema
@@ -70,11 +72,31 @@ export default function Display() {
       const result = await res.json();
       setData(result);
     } catch (error) {
-      console.error('Error while fetching:', error);
+      console.error("Error while fetching:", error);
     }
   }
 
-  if (loading)
+  async function starHanlder(id:string) {
+    try {
+      const res = await fetch("/api/prototype", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id, fav: true })
+      });
+
+      const result = await res.json();
+
+      if (res.ok) {
+        console.log("Update success:", result);
+      } else {
+        console.error("Error updating:", result.error);
+      }
+    } catch (error) {
+      console.error("Error during update:", error);
+    }
+  }
+
+  if (loadingE)
     return (
       <Grid container spacing={2} minHeight={200}>
         <Grid
@@ -117,9 +139,11 @@ export default function Display() {
         ></Grid>
       </Grid>
     );
-  if (error) return <div>Error: {error}</div>;
+
+  if (mongoError) return <div>Error: {mongoError}</div>;
 
   if (data) {
+    console.log(data);
     return (
       <Grid container spacing={2} minHeight={200}>
         <Grid
@@ -159,7 +183,7 @@ export default function Display() {
           justifyContent="center"
           alignItems="center"
         >
-          <ChevronRightIcon onClick={() => arrowHandler(data.data[0]._id)} />
+          {data.data[0].starred ? (<StarIcon />) : (<StarBorderIcon onClick={() => starHanlder(data.data[0]._id)} />)}
         </Grid>
       </Grid>
     );

@@ -1,6 +1,15 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import {
+  AppBar,
+  Box,
+  CssBaseline,
+  Link,
+  Stack,
+  Toolbar,
+  Typography
+} from "@mui/material";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,8 +34,26 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <CssBaseline />
       <body>
-        {children}
+        <Box sx={{ flexGrow: 1 }}>
+          <AppBar position="static">
+            <Toolbar>
+              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                Sanqui
+              </Typography>
+              <Stack direction="row" spacing={2}>
+                <Link href="/" underline="hover" color="inherit">
+                  Home
+                </Link>
+                <Link href="/strategies" underline="hover" color="inherit">
+                  Strategies
+                </Link>
+              </Stack>
+            </Toolbar>
+          </AppBar>
+          {children}
+        </Box>
       </body>
     </html>
   );
