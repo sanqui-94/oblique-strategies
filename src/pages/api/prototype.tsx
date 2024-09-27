@@ -22,14 +22,22 @@ export default async function handler(
 
     switch (method) {
       case "GET": {
-        const data = await collection
-          .aggregate([{ $match: { seen: false } }, { $sample: { size: 1 } }])
-          .toArray();
-        res.status(200).json({ data, success: true });
+        const { query } = req;
+        if (query.id) {
+          const data = await collection.findOne({
+            _id: new ObjectId(query.id as string)
+          });
+          return res.status(200).json({ data, success: true });
+        } else {
+          const data = await collection
+            .aggregate([{ $match: { seen: false } }, { $sample: { size: 1 } }])
+            .toArray();
+          return res.status(200).json({ data, success: true });
+        }
       }
 
       case "PUT": {
-        const { id, fav } = req.body;
+        const { id, fav, unfav } = req.body;
         if (!id) {
           return res
             .status(400)
@@ -39,12 +47,23 @@ export default async function handler(
         if (fav) {
           const result = await collection.updateOne(
             { _id: new ObjectId(id as string) },
-            { $set: { "starred": true } }
+            { $set: { starred: true } }
           );
 
           return res.status(200).json({
             success: true,
             message: "dileman added to favorites",
+            data: result
+          });
+        } else if (unfav) {
+          const result = await collection.updateOne(
+            { _id: new ObjectId(id as string) },
+            { $set: { starred: false } }
+          );
+
+          return res.status(200).json({
+            success: true,
+            message: "dilema removed from favorites",
             data: result
           });
         } else {
@@ -59,6 +78,11 @@ export default async function handler(
             data: result
           });
         }
+      }
+
+      case "POST": {
+        const data = await collection.updateMany({}, { $set: { seen: false } });
+        return res.status(200).json({ data, success: true });
       }
 
       default:

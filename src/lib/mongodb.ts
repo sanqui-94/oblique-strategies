@@ -13,7 +13,6 @@ if (process.env.NODE_ENV === 'development') {
   // during hot-reloading.
   if (!(global as any)._mongoClientPromise) {
     client = new MongoClient(uri);
-    console.log("sup: ", client);
     (global as any)._mongoClientPromise = client.connect();
   }
   clientPromise = (global as any)._mongoClientPromise;
