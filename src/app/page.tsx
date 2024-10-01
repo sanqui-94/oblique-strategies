@@ -1,5 +1,10 @@
 import { Box, Typography } from "@mui/material";
 
+export const metadata = {
+  title: 'Sanqui App',
+  description: 'Personal Portfolio',
+};
+
 export default function Home() {
   return (
     <Box

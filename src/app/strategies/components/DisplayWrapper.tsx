@@ -26,7 +26,7 @@ export const DisplayWrapper: React.FC<{ children: React.ReactNode }> = ({
             justifyContent: "center",
             alignItems: "center",
             padding: 2,
-            backgroundColor: grey[900],
+            backgroundColor: grey[600],
             height: "250px",
             width: "450px"
           }}

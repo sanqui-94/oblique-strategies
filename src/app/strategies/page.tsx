@@ -10,7 +10,6 @@ export default function Strategies() {
     <DisplayContextProvider>
       <Box
         sx={{
-          backgroundColor: grey[200],
           width: "100vw",
           height: "100vh",
           justifyContent: "center",

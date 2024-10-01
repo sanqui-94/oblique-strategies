@@ -20,7 +20,7 @@ export default function Display() {
     return (
       <Typography
         variant="h5"
-        sx={{ textTransform: "uppercase", color: grey[100] }}
+        sx={{ textTransform: "uppercase", color: grey[900] }}
       >
         Oblique Strategies
       </Typography>
@@ -30,7 +30,7 @@ export default function Display() {
     return (
       <Typography
         variant="h5"
-        sx={{ textTransform: "uppercase", color: grey[100] }}
+        sx={{ textTransform: "uppercase", color: grey[900] }}
       >
         Error: There was an unexpected error
       </Typography>
@@ -38,7 +38,7 @@ export default function Display() {
 
   if (strategy) {
     return (
-      <Typography variant="h5" sx={{ color: grey[100] }}>
+      <Typography variant="h5" sx={{ color: grey[900] }}>
         {strategy.dilema}
       </Typography>
     );

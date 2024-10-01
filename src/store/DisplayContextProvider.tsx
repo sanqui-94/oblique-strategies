@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createContext, useContext, useState } from "react";
 
 export type Strategy = {
@@ -27,14 +28,14 @@ export const DisplayContext = createContext<DisplayContextType | undefined>(
 
 export const DisplayContextProvider: React.FC<{
   children: React.ReactNode;
-}> = ({ children }) => {
+}> = ({ children }: { children: React.ReactNode }) => {
   const [strategy, setStrategy] = useState<Strategy | null>(null);
   const [loadingE, setLoadingE] = useState<boolean>(true);
   const [mongoError, setMongoError] = useState<any>(null);
 
   const toogleFavorite = async (id: string, addToFav: boolean = true) => {
     try {
-      let body: { id: string; fav?: boolean; unfav?: boolean } = { id };
+      const body: { id: string; fav?: boolean; unfav?: boolean } = { id };
       if (addToFav) {
         body.fav = true;
       } else {
